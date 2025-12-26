@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <title> AFROBOT: Autonomous Drive Pet | Mouhameth Ba </title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+  <style>
+    /* ===== AFROBOT custom styles ===== */
+
+    #hero-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    #hero-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: -1;
+    }
+
+    #content {
+      margin-top: 100vh;
+      background: #0f0f0f;
+    }
+
+    section { padding: 4rem 0; }
+
+    pre {
+      background: #111;
+      padding: 1.5rem;
+      overflow-x: auto;
+    }
+
+    .chart-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .chart-modal.hidden {
+  display: none;
+}
+
+    .chart-container {
+      position: relative;
+      width: 90%;
+      height: 90vh;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .chart-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: #111;
+      color: white;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    /* Make images side by side */
+    .image {
+      display: flex;
+      gap: 1rem;
+      align-items: normal;
+      justify-content: center;
+    }
+
+    .image img {
+      max-width: 45%;
+      height: auto;
+    }
+
+    /* Exception for single images */
+    .image.block {
+      display: block;
+    }
+
+    .image.block img {
+      max-width: 100%;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .result-card {
+      background: rgba(255,255,255,0.03);
+      padding: 1.5rem;
+      border-left: 4px solid #5bc0de;
+      border-radius: 6px;
+    }
+
+    .video-container video {
+      width: 100%;
+      border-radius: 6px;
+      background: #000;
+    }
+
+    .lesson {
+      color: #bbb;
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+
+     .chart-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.chart-modal.hidden {
+  display: none;
+}
+
+.chart-container {
+  position: relative;
+  width: 90%;
+  height: 90vh;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.chart-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #111;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 6px;
+}
+  </style>
+</head>
+<body class="is-preload">
+
+  <!-- HERO VIDEO -->
+  <video id="hero-video" autoplay muted loop playsinline poster="images/afrobot-poster.jpg">
+    <source src="videos/Videos of the robot's sides.mp4" type="video/mp4" />
+  </video>
+  <div id="hero-overlay"></div>
+
+
+  <!-- Header -->
+  <header id="header">
+    <h1><a href="projects.html">Projects</a></h1>
+    <nav><a href="#menu">Menu</a></nav>
+  </header>
+
+  <!-- Menu -->
+  <nav id="menu">
+    <ul class="links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="bio.html">Bio</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <!-- ABSTRACT -->
+    <section class="wrapper">
+      <div class="inner">
+        <h2>AFROBOT: Autonomous Drive Pet</h2>
+        <p>
+          AfroBot is an autonomous mobile robot designed to track a dark-green object using a Pixy2 vision sensor
+          while avoiding obstacles with infrared distance sensors. The system combines analog signal conditioning,
+          PWM motor control, and a subsumption-based behavior architecture to coordinate Cruise, Track, and Escape behaviors.
+          The robot successfully executed all behaviors: maintaining straight motion, detecting obstacles at ~11 cm, and tracking a green object up to 1 meter away. 
+          Despite wiring failures and sensor replacements late in development, AfroBot ultimately operated reliably and met all project requirements.
+          In the lines below, we will explore the system design, methods, challenges, and results of this project.
+        </p>
+      </div>
+    </section>
+
+    <!-- SYSTEM OVERVIEW -->
+    <section class="wrapper alt">
+        <div class="inner">
+          <h2>System Overview</h2>
+          <ul>
+            <li><strong>Power:</strong> 7.2V NiMH battery regulated to 5V</li>
+            <li><strong>Sensing:</strong> Sharp IR distance sensors, Pixy2 camera</li>
+            <li><strong>Control:</strong> Adafruit Metro Mini microcontroller</li>
+            <li><strong>Actuation:</strong> Dual DC motors with H-bridge driver</li>
+            <li><strong>Behavior:</strong> Circuit board and electronics components such as resistors, capacitors, Op-amps etc.</li>
+          </ul>
+
+          <u><strong>ELECTRONIC SCHEMATIC:</strong></u>
+          <div class="image block"> <img src="images/circuit block.png" alt="SYSTEM BLOCK DIAGRAM" /></div>
+        </div>
+    </section>
+
+    <!-- METHODS -->
+    <section class="wrapper">
+      <div class="inner">
+        <h2> <strong>Methods</strong></h2>
+
+       <p>
+        <h3> I- IR Sensor & Amplifier Circuit</h3>
+        
+          Infrared distance sensors output a nonlinear voltage proportional to distance.
+          Each Sharp IR sensor outputs 0.03–3.1 V depending on distance.
+          Non-inverting LM324 op-amp circuits were used to amplify and stabilize these signals
+          for reliable obstacle detection at approximately 11 cm.
+        </p>
+
+        <div><u> IR SENSOR schematic: </u></div>
+        <div class="image"><img src="images/IR sensor ciruit.png" alt="IR Sensor" />
+        </div>
+
+
+        <p>
+          <h3> II- Pixy2 Tracking Circuit</h3>
+          
+          The Pixy2 camera outputs an analog 0–3.3 V signal representing horizontal object position.
+          A differential amplifier converted this signal into steering corrections for left and right motors:
+          <li> If object is left → slow left motor, speed right motor </li>
+          <li> If object is right → reverse </li>
+          <li> If object centered → equal speed </li>
+          </p>
+         <div><u> Pixy Camera schematic: </u></div>
+        <div class="image"> <img src="images/pixy camera circuit.png" alt="pixy camera" />
+        </div> 
+
+        <p>
+        <h3> III- Motor Control & PWM</h3> 
+          DC motors were driven through an H-bridge using PWM signals generated by the microcontroller.
+          Speed tuning compensated for mechanical imbalance between wheels.
+        </p>
+       
+        <div><u> H-bridge DC motor Configuration: </u></div>
+        <div class="image"> 
+          <img src="images/DC-MOTOR CONTROL CONFIG.png" alt="DC-MOTOR" />
+          <!-- Add your second image here -->
+          <img src="images/IMG_6794 (1).jpeg" alt="Second Image" />
+        </div> 
+       </div> 
+    </section>
+
+
+    <!-- SUBSUMPTION ARCHITECTURE -->
+    <section class="wrapper alt">
+        <div class="inner">
+          <h2><strong>Subsumption Architecture</strong></h2>
+            <P>
+              AFROBOT is controlled using a layered subsumption architecture in which multiple behaviors are evaluated continuously and executed based on priority rather than explicit state transitions. 
+              Each control loop independently processes sensor inputs and proposes motor commands, while higher-priority behaviors can override lower-priority outputs in real time. 
+              Reflexive safety behaviors such as emergency avoidance subsume goal-directed behaviors like object tracking and cruising, ensuring robust and responsive operation.
+              The entire system is implemented using a non-blocking loop structure, allowing deterministic behavior arbitration and rapid response to environmental changes.
+              </P>
+              <ol>
+            <li><strong>Emergency:</strong> Highest priority – immediate safety</li>
+            <li><strong>Escape:</strong> priority – obstacle avoidance</li>
+            <li><strong>Track:</strong> Medium priority – follow green object</li>
+            <li><strong>Cruise:</strong> Lowest priority – forward motion</li>
+          </ol>
+          <button id="open-chart" class="button primary">
+                View Subsumption Architecture Logic
+              </button>
+        <div id="chart-modal" class="chart-modal hidden">
+      <div class="chart-container">
+      <button id="close-chart" class="close-btn">✕</button>
+
+              <!-- ✅ REUSING chart.html -->
+              <iframe 
+                src="chart.html"
+                title="Subsumption Architecture Chart"
+                frameborder="0"
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <!-- CODE -->
+    <!-- CONTROL CODE -->
+<section class="wrapper">
+  <div class="inner">
+
+    <h2>Control Code</h2>
+
+    <p>
+      AFROBOT’s behavior is implemented using a layered subsumption controller.
+      Each behavior independently evaluates sensor inputs and proposes motor
+      commands, while higher-priority behaviors override lower-priority ones
+      in real time. The control loop is fully non-blocking and executes continuously.
+    </p>
+
+
+    <!-- ================= SENSOR ACQUISITION ================= -->
+    <details>
+      <summary><strong>Sensor Acquisition & Preprocessing</strong></summary>
+
+      <p>
+        Analog and digital sensors are sampled every loop iteration. Pixy2
+        provides complementary analog voltages for object tracking, while
+        the IR sensors provide proximity feedback for obstacle detection.
+      </p>
+
+        <pre><code>
+                    /// --- Sensor reads ---
+                    int adcPixyL = analogRead(PIXY_LEFT_A);
+                    int adcPixyR = analogRead(PIXY_RIGHT_A);
+                    int adcIRL   = analogRead(IR_LEFT_A);
+                    int adcIRR   = analogRead(IR_RIGHT_A);
+                    bool pixyPresent = (digitalRead(PIXY_PRESENT_D) == HIGH);
+
+                    // Convert ADC to voltage
+                    float vPixyL = adcToVoltage(adcPixyL);
+                    float vPixyR = adcToVoltage(adcPixyR);
+
+                    float adcToVoltage(int adc) {
+                      return ((float)adc / (float)ADC_MAX) * ADC_REF_V;
+                    }
+      </code></pre>
+    </details>
+
+    <!-- ================= EMERGENCY LAYER ================= -->
+      <details>
+        <summary><strong>Emergency Behavior</strong>
+    <span style="opacity:0.6;">(Layer 4 — Safety Override)</span>
+  </summary>
+
+        <p>
+          The emergency layer overrides all other behaviors when both IR
+          sensors detect a very close obstacle. A timed pivot maneuver is executed
+          to rapidly disengage from the hazard.
+        </p>
+
+          <pre><code>
+                    // --- Emergency detection ---
+                    if (!inEmergency) {
+                      if (adcIRL >= IR_EMERGENCY_ADC && adcIRR >= IR_EMERGENCY_ADC) {
+                        inEmergency = true;
+                        emergencyStartTS = millis();
+                      }
+                    } else {
+                      if ((millis() - emergencyStartTS) >= EMERGENCY_DURATION_MS) {
+                        inEmergency = false;
+                      }
+                    }
+
+                    // Emergency action: clockwise pivot
+                    leftPWM  = clampPWM(BASE_SPEED + MAX_DELTA_ESCAPE);
+                    rightPWM = clampPWM(0);
+
+          </code></pre>
+     </details>
+
+    <!-- ================= ESCAPE LAYER ================= -->
+    <details>
+       <summary>
+    <strong>Escape Behavior</strong>
+    <span style="opacity:0.6;">(Layer 3 — Obstacle Avoidance)</span>
+  </summary>
+      <p>
+        The escape behavior activates when either infrared sensor exceeds the
+        escape threshold. Differential steering is applied to turn away from
+        obstacles, with a forced clockwise turn when both sensors are triggered.
+      </p>
+
+      <pre><code>
+                    bool leftEscape  = (adcIRL >= IR_ESCAPE_ADC);
+                    bool rightEscape = (adcIRR >= IR_ESCAPE_ADC);
+
+                    float nIRL = irNormalized(adcIRL);
+                    float nIRR = irNormalized(adcIRR);
+
+                    // Both sides blocked → force clockwise turn
+                    if (leftEscape && rightEscape) {
+                      leftPWM  = clampPWM(BASE_SPEED + MAX_DELTA_ESCAPE);
+                      rightPWM = clampPWM(BASE_SPEED - MAX_DELTA_ESCAPE);
+                    } else {
+                      float turnNorm = (nIRR - nIRL);
+                      float d = turnNorm * MAX_DELTA_ESCAPE;
+                      leftPWM  = clampPWM(BASE_SPEED - d);
+                      rightPWM = clampPWM(BASE_SPEED + d);
+                    }
+
+      </code></pre>
+    </details>
+
+    <!-- ================= TRACK LAYER ================= -->
+    <details>
+       <summary>
+    <strong>Track Behavior</strong>
+    <span style="opacity:0.6;">(Layer 2 — Object Tracking)</span>
+  </summary>
+      <p>
+        When an object is detected by the Pixy camera, symmetric speed control
+        is used to center the object within the field of view. Wheel speeds are
+        balanced around a base velocity to ensure smooth motion.
+      </p>
+
+      <pre><code>
+                  float pixyTurnNormalized(float vL, float vR) {
+                    float diff = vR - vL;
+                    float norm = diff / (2.0 * PIXY_HALF_SPAN);
+                    return constrain(norm, -1.0, 1.0);
+                  }
+
+                  // Symmetric wheel control
+                  float turnNorm = pixyTurnNormalized(vPixyL, vPixyR);
+                  float d = turnNorm * MAX_DELTA_TRACK;
+                  leftPWM  = clampPWM(BASE_SPEED - d);
+                  rightPWM = clampPWM(BASE_SPEED + d);
+
+      </code></pre>
+    </details>
+
+    <!-- ================= CRUISE LAYER ================= -->
+    <details>
+      <summary>
+    <strong>Cruise Behavior</strong>
+    <span style="opacity:0.6;">(Layer 1 — Default Motion)</span>
+  </summary>
+      <p>
+        Cruise mode is the default behavior when no higher-priority conditions
+        are active. Both motors are driven forward at a constant base speed.
+      </p>
+
+      <pre><code>
+                  leftPWM  = BASE_SPEED;
+                  rightPWM = BASE_SPEED;
+      </code></pre>
+    </details>
+
+    <!-- ================= OUTPUT & LEDs ================= -->
+    <details>
+      <summary><strong>Motor Output & Mode Indicators</strong></summary>
+      <p>
+        Final motor commands are applied through PWM outputs, and operating
+        modes are communicated using a two-bit LED encoding scheme.
+      </p>
+
+      <pre><code>
+                void setMotorPWMs(int leftPWM, int rightPWM) {
+                  analogWrite(PWM_LEFT_D, leftPWM);
+                  analogWrite(PWM_RIGHT_D, rightPWM);
+                }
+
+                void setModeLEDs(Behavior b) {
+                  digitalWrite(LED_MODE0_D, b & 0x01);
+                  digitalWrite(LED_MODE1_D, b & 0x02);
+                }
+
+      </code></pre>
+    </details>
+
+    <p style="margin-top:2rem; font-size:0.9rem; color:#aaa;">
+      Full source code is available on GitHub. This section highlights the
+      architectural logic and behavior arbitration strategy.
+    </p>
+
+  </div>
+</section>
+
+
+    <!-- RESULTS -->
+<section class="wrapper alt">
+  <div class="inner">
+
+    <header class="major">
+      <h2>Results & Performance</h2>
+      <p>
+        The AFROBOT system was evaluated through controlled bench tests
+        and real-world navigation scenarios.
+      </p>
+    </header>
+
+    <!-- RESULT CARDS -->
+    <div class="results-grid">
+
+      <div class="result-card">
+        <h3>Obstacle Avoidance</h3>
+        <p>
+          Reliable IR-based detection with consistent avoidance behavior
+          at approximately <strong>11 cm</strong>.
+        </p>
+        <table class="experiment-table">
+          <thead>
+            <tr>
+              <th>Distance</th>
+              <th>Output Voltage</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td> >25-30 cm </td>
+              <td> ~ 0.03 V</td>
+              </tr>
+              <tr>
+              <td> 20cm </td>
+              <td> ~1.8 V </td>
+              </tr>
+              <tr>
+              <td> 15 cm </td>
+              <td> ~2.4 V </td>
+              </tr>
+              <tr>
+              <td>11 cm (Trigger) </td>
+              <td>~4.2 V</td>
+              </tr>
+            </tbody>
+          </table>
+          <p> The voltage increased nonlinearly, but the 11 cm point was consistent for triggering escape behavior. </p>
+      </div>
+
+      <div class="result-card">
+        <h3>Object Tracking</h3>
+        <p>
+          <ul><li>Smooth Pixy-based tracking of a dark-green target
+          up to a distance of <strong>1 meter</strong>.</li></ul>
+          <ul><li>Motor corrections were smooth and effective.</li></ul>
+          <ul><li>Analog output was stable with minimal noise .</li></ul>
+          <ul><li>Object remained centered within the field of view
+          during motion.</li></ul>
+        </p>
+      </div>
+
+      <div class="result-card">
+        <h3>Cruise Stability</h3>
+        <p>
+          <ul><li>Stable forward motion achieved after PWM tuning
+          and compensation for mechanical imbalance.</li></ul>
+          <ul><li>Straight-line travel maintained over distances of
+          several meters.</li></ul>
+          <ul><li>Tracking behavior maintained the object centered most of the time. </li></ul>
+          <ul><li>Escape behavior triggered consistently. </li></ul>
+          <ul><li>All three behaviors worked simultaneously thanks to subsumption processing </li></ul>
+        </p>
+      </div>
+
+    </div>
+
+    <!-- VIDEO DEMONSTRATION -->
+    <hr />
+
+    <h3>Video Demonstration</h3>
+    <p>
+      The following video demonstrates AFROBOT transitioning between
+      cruise, tracking, and escape behaviors in real time.
+    </p>
+    <div class="video-container">
+      <!-- TODO: Replace src with final demo video -->
+      <video controls muted playsinline>
+        <source src="videos/Demo.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</section>
+
+    <section class="wrapper">
+  <div class="inner">
+    <h2><u>Engineering Challenges</u></h2>
+    <p>
+      The development of AfroBot presented several real-world engineering challenges that required troubleshooting, redesign, and iterative testing. 
+    These issues ultimately strengthened the reliability of the final system and demonstrated the importance of resilience in this project. 
+    </p>
+    <h3> Wiring Failures & Full System Rebuild </h3>
+    <p>
+      Early testing revealed Late in the project, 
+      the primary control board experienced intermittent power loss caused by loose jumper connections and overused breadboard contacts. 
+      Symptoms included:
+      <li>Motors cutting out unexpectedly </li>
+      <li>IR readings fluctuating or dropping to zero</li>
+      <li>Arduino resets when motors started</li>
+      Because debugging was unreliable due to inconsistent contact, I decided to ultimately rebuilt the entire wiring harness on a new protoboard with fresh soldering 2 days before the due date. 
+    </p>
+    <p>
+      The system was rewired with shorter signal paths, improved strain relief,
+      and cleaner separation between analog and digital subsystems.
+      This significantly improved:
+      <li>Signal stability</li>
+      <li>Power distribution reliability</li>
+      <li>Noise immunity</li>
+      <li>Physical durability during robot motion</li>
+      The rebuild, done only <strong>two days before the final deadline</strong>, required rapid relearning of the wiring layout but resulted in a more robust overall design. 
+    </p>
+        <p class="lesson"><strong>Lesson learned:</strong> 
+          Physical robustness is a core part of autonomous system reliability, and slow relearning of the wiring layout is a necessary trade-off for improved system stability.</p>
+
+    <h3>IR Sensor Damage & Signal Protection</h3>
+    <p>
+      Multiple infrared distance sensors failed during prototyping due to wiring
+      mistakes and insufficient electrical protection.
+    </p>
+    <p>
+      Faulty sensors were replaced and signal conditioning was redesigned using
+      buffered inputs and controlled voltage ranges.
+    </p>
+    <p class="lesson"><strong>Lesson learned:</strong> Sensors are fragile dependencies and must be electrically protected.</p>
+
+    <h3>Motor Drift & Mechanical Asymmetry</h3>
+    <p>
+      Despite identical PWM commands, the robot exhibited directional drift during
+      straight-line motion due to mechanical differences between DC motors.
+    </p>
+    <p>
+      Asymmetric PWM tuning was implemented in software to compensate for hardware imbalance.
+    </p>
+    <p class="lesson"><strong>Lesson learned:</strong> Software compensation is often required for real-world hardware imperfections.</p>
+
+    <h3>Behavior Priority Conflicts</h3>
+    <p>
+      Early implementations produced unstable behavior when tracking and avoidance
+      routines attempted to control the motors simultaneously.
+    </p>
+    <p>
+      A strict subsumption hierarchy was enforced to ensure higher-priority safety
+      behaviors always override goal-directed behaviors.
+    </p>
+    <p class="lesson"><strong>Lesson learned:</strong> Explicit behavior arbitration improves predictability and safety.</p>
+
+  </div>
+</section>
+
+
+    <!-- FUTURE WORK -->
+    <section class="wrapper alt">
+  <div class="inner">
+    <h2>Future Work</h2>
+
+    <p>
+      Future development will focus on evolving the system from a purely reactive robot
+      into a more adaptive autonomous platform.
+    </p>
+
+    <ul>
+      <li>
+        Introduce short-term state awareness to improve decision-making during repeated
+        obstacle encounters.
+      </li>
+      <li>
+        Expand emergency behaviors into multi-stage recovery routines that adapt based
+        on obstacle persistence.
+      </li>
+      <li>
+        Integrate distance sensing with visual tracking to improve perception robustness
+        in cluttered environments.
+      </li>
+      <li>
+        Add wheel encoders to enable closed-loop motor control and more accurate navigation.
+      </li>
+    </ul>
+  </div>
+</section>
+
+    <!-- CONCLUSION -->
+    <section class="wrapper">
+      <div class="inner">
+        <h2>Conclusion</h2>
+       <p>
+          The AFROBOT project demonstrates the successful integration of sensing, analog signal
+          conditioning, and behavior-based control into a cohesive autonomous system.
+          By leveraging a subsumption architecture, the robot achieves responsive and reliable
+          operation in dynamic environments while prioritizing safety-critical behaviors.
+          Beyond functional performance, the project emphasized real-world engineering challenges
+          such as system robustness, hardware variability, and behavior arbitration—reinforcing
+          the importance of disciplined design in autonomous robotics.
+        </p>
+      </div>
+    </section>
+    
+
+  </div>
+
+ <!-- Footer -->
+  <section id="footer">
+    <div class="inner">
+      <h2 class="major">Get in touch</h2>
+      <ul class="contact">
+        <li class="icon solid fa-envelope">
+          <a href="mailto:ibnoury17@gmail.com">ibnoury17@gmail.com</a>
+        </li>
+        <li class="icon brands fa-linkedin">
+          <a href="https://www.linkedin.com/in/mouhameth-ba-588b82207/" target="_blank">
+            LinkedIn
+          </a>
+        </li>
+      </ul>
+      <ul class="copyright">
+        <li>&copy; Mouhameth Ba. All rights reserved.</li>
+        <li> Dina metti, waaye dinagnu am ndam</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <script>
+    const openChart = document.getElementById("open-chart");
+    const closeChart = document.getElementById("close-chart");
+    const chartModal = document.getElementById("chart-modal");
+
+    if (openChart && closeChart && chartModal) {
+      openChart.addEventListener("click", () => {
+        chartModal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        document.getElementById('header').style.display = 'none'; // Hide header
+      });
+
+      closeChart.addEventListener("click", () => {
+        chartModal.classList.add("hidden");
+        document.body.style.overflow = "";
+        document.getElementById('header').style.display = 'block'; // Show header
+      });
+    }
+
+    const heroVideo = document.getElementById("hero-video");
+    if (heroVideo) {
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > window.innerHeight * 0.6) {
+          heroVideo.pause();
+        } else {
+          heroVideo.play();
+        }
+      });
+    }
+  </script>
+ 
+</body>
+</html>

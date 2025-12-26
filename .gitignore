@@ -1,0 +1,19 @@
+# VS Code & editor cache
+.vs/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node (if you use it later)
+node_modules/
+package-lock.json
+
+# Build/dist (if applicable)
+dist/
+build/

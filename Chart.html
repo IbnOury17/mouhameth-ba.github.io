@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subsumption Architecture Logic Diagram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.355);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        h1 {
+            color: #1f2937;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #1f2937;
+            font-size: 1.2rem;
+        }
+        
+        section {
+            margin-bottom: 2.5rem;
+        }
+        
+        h2 {
+            color: #1f2937;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .icon {
+            margin-right: 0.5rem;
+        }
+        
+        /* Input Sensors */
+        .sensors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .sensor-card {
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 2px solid;
+        }
+        
+        .sensor-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .sensor-card ul {
+            list-style: none;
+        }
+        
+        .sensor-card li {
+            padding: 0.3rem 0;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+        
+        .sensor-card li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .pixycam {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+        
+        .pixycam h3 {
+            color: #1e40af;
+        }
+        
+        .ir-sensors {
+            background: #dcfce7;
+            border-color: #22c55e;
+        }
+        
+        .ir-sensors h3 {
+            color: #166534;
+        }
+        
+        .user-input {
+            background: #fef3c7;
+            border-color: #f59e0b;
+        }
+        
+        .user-input h3 {
+            color: #92400e;
+        }
+        
+        /* Subsumption Layers */
+        .behavior-layer {
+            position: relative;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            padding: 1.5rem 1.5rem 1.5rem 5rem;
+            border: 3px solid;
+            color: white;
+        }
+        
+        .priority-badge {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 3px solid;
+        }
+        
+        .behavior-layer h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .behavior-layer p {
+            margin: 0.3rem 0;
+        }
+        
+        .behavior-layer strong {
+            font-weight: 600;
+        }
+        
+        /* Layer specific styles */
+        .layer-stop {
+            background: #ef4444;
+            border-color: #991b1b;
+        }
+        
+        .layer-stop .priority-badge {
+            background: #dc2626;
+            border-color: #991b1b;
+        }
+        
+        .layer-emergency {
+            background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+            border-color: #9a3412;
+        }
+        
+        .layer-emergency .priority-badge {
+            background: #ea580c;
+            border-color: #9a3412;
+        }
+        
+        .layer-escape {
+            background: #facc15;
+            border-color: #854d0e;
+            color: #422006;
+        }
+        
+        .layer-escape .priority-badge {
+            background: #eab308;
+            border-color: #854d0e;
+            color: white;
+        }
+        
+        .layer-track {
+            background: #c084fc;
+            border-color: #6b21a8;
+        }
+        
+        .layer-track .priority-badge {
+            background: #a855f7;
+            border-color: #6b21a8;
+        }
+        
+        .layer-cruise {
+            background: #60a5fa;
+            border-color: #1e40af;
+        }
+        
+        .layer-cruise .priority-badge {
+            background: #3b82f6;
+            border-color: #1e40af;
+        }
+        
+        .arrow-down {
+            text-align: center;
+            color: #ffffff;
+            font-size: 2rem;
+            margin: 1rem 0;
+        }
+        
+        .arrow-text {
+            font-size: 0.9rem;
+            display: block;
+            margin-top: -0.5rem;
+        }
+        
+        /* Motor Control */
+        .motor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .motor-card {
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 2px solid;
+        }
+        
+        .motor-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .motor-card dl {
+            margin-top: 1rem;
+        }
+        
+        .motor-card dt {
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        
+        .motor-card dd {
+            margin-left: 1rem;
+            color: #4b5563;
+        }
+        
+        .speed-badge {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .left-motor {
+            background: #d1fae5;
+            border-color: #10b981;
+        }
+        
+        .left-motor h3 {
+            color: #065f46;
+        }
+        
+        .left-motor .speed-badge {
+            background: #6ee7b7;
+            color: #065f46;
+            border: 2px solid #059669;
+        }
+        
+        .right-motor {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+        
+        .right-motor h3 {
+            color: #1e3a8a;
+        }
+        
+        .right-motor .speed-badge {
+            background: #93c5fd;
+            color: #1e3a8a;
+            border: 2px solid #2563eb;
+        }
+        
+        /* LED Indicators */
+        .led-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .led-card {
+            border-radius: 8px;
+            padding: 1rem;
+            border: 2px solid;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .led-display {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .led {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #6b7280;
+        }
+        
+        .led-off {
+            background: #d1d5db;
+        }
+        
+        .led-on {
+            box-shadow: 0 0 10px currentColor;
+        }
+        
+        .led-blue {
+            background: #3b82f6;
+            border-color: #1e40af;
+        }
+        
+        .led-purple {
+            background: #a855f7;
+            border-color: #7e22ce;
+        }
+        
+        .led-red {
+            background: #ef4444;
+            border-color: #dc2626;
+        }
+        
+        .led-stop {
+            background: #f3f4f6;
+            border-color: #6b7280;
+        }
+        
+        .led-cruise {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+        
+        .led-track {
+            background: #e9d5ff;
+            border-color: #a855f7;
+        }
+        
+        .led-escape {
+            background: #fee2e2;
+            border-color: #ef4444;
+        }
+        
+        .led-info h4 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .led-info p {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+        
+        /* Speed Examples */
+        .examples-section {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            color: white;
+        }
+        
+        .examples-section h2 {
+            color: white;
+            border-color: rgba(255,255,255,0.3);
+            text-align: center;
+        }
+        
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .example-card {
+            background: rgba(99, 102, 241, 0.5);
+            border: 2px solid #4338ca;
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+        
+        .example-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .example-card p {
+            margin: 0.5rem 0;
+        }
+        
+        .example-card .highlight {
+            color: #fef08a;
+            font-weight: bold;
+        }
+        
+        .key-principle {
+            background: #1e1b4b;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 1.5rem;
+            font-weight: bold;
+        }
+        
+        /* Timing Info */
+        .timing-section {
+            background: #334155;
+            border-radius: 15px;
+            padding: 1.5rem;
+            color: white;
+        }
+        
+        .timing-section h2 {
+            color: white;
+            border-color: rgba(255,255,255,0.2);
+            text-align: center;
+        }
+        
+        .timing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .timing-card {
+            background: #475569;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .timing-card strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>Subsumption Architecture Logic Diagram</h1>
+            <p class="subtitle">Priority-Based Behavior Override System</p>
+        </header>
+
+        <!-- Input Sensors Section -->
+        <section aria-labelledby="sensors-heading">
+            <h2 id="sensors-heading"><span class="icon">📡</span>Input Sensors</h2>
+            <div class="sensors-grid">
+                <article class="sensor-card pixycam">
+                    <h3>PixyCam</h3>
+                    <ul>
+                        <li>Left Analog (A0): 1.5-3.5V</li>
+                        <li>Right Analog (A1): 1.5-3.5V</li>
+                        <li>Object Present (D3): HIGH/LOW</li>
+                    </ul>
+                </article>
+                
+                <article class="sensor-card ir-sensors">
+                    <h3>IR Sensors</h3>
+                    <ul>
+                        <li>Left IR (A2): 0-4V</li>
+                        <li>Right IR (A3): 0-4V</li>
+                        <li><small>(4V = close, 0V = far)</small></li>
+                    </ul>
+                </article>
+                
+                <article class="sensor-card user-input">
+                    <h3>User Input</h3>
+                    <ul>
+                        <li>Start/Stop Button (D2)</li>
+                        <li><small>(INPUT_PULLUP)</small></li>
+                        <li><small>Press = LOW = Toggle</small></li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <!-- Subsumption Layers Section -->
+        <section aria-labelledby="layers-heading">
+            <h2 id="layers-heading"><span class="icon">🎯</span>Subsumption Layers</h2>
+            <p style="color: #667eea; margin-bottom: 1rem;"><em>Priority: Top to Bottom (Higher priority overrides lower)</em></p>
+            
+            <article class="behavior-layer layer-stop">
+                <div class="priority-badge">0</div>
+                <h3>🛑 STOP (Override Everything)</h3>
+                <p><strong>Trigger:</strong> robotEnabled == false (button toggle)</p>
+                <p><strong>Action:</strong> Motors OFF (0 PWM), LEDs = 00</p>
+            </article>
+
+            <div class="arrow-down">
+                ↓
+                <span class="arrow-text">If robotEnabled == true</span>
+            </div>
+
+            <article class="behavior-layer layer-emergency">
+                <div class="priority-badge">1</div>
+                <h3>🚨 EMERGENCY (Highest Behavior Priority)</h3>
+                <p><strong>Trigger:</strong> BOTH IR sensors ≥ 3.0V (very close obstacle)</p>
+                <p><strong>Duration:</strong> 1000ms (timed with millis())</p>
+                <p><strong>Action:</strong> Clockwise pivot - Left=250 PWM, Right=0 PWM, LEDs=11</p>
+            </article>
+
+            <div class="arrow-down">
+                ↓
+                <span class="arrow-text">If no emergency</span>
+            </div>
+
+            <article class="behavior-layer layer-escape">
+                <div class="priority-badge">2</div>
+                <h3>⚠️ ESCAPE (Obstacle Avoidance)</h3>
+                <p><strong>Trigger:</strong> Left IR ≥ 2.0V OR Right IR ≥ 2.0V</p>
+                <p><strong>If BOTH active:</strong> Force right turn (Left=250, Right=50)</p>
+                <p><strong>If ONE active:</strong> Differential steering away from obstacle, LEDs=11</p>
+            </article>
+
+            <div class="arrow-down">
+                ↓
+                <span class="arrow-text">If no obstacles detected</span>
+            </div>
+
+            <article class="behavior-layer layer-track">
+                <div class="priority-badge">3</div>
+                <h3>🎯 TRACK (Object Following)</h3>
+                <p><strong>Trigger:</strong> PixyCam object present (D3 = HIGH)</p>
+                <p><strong>Calculation:</strong> turnNorm = (vRight - vLeft) / 2.0</p>
+                <p><strong>Action:</strong> Symmetric differential steering to center object, LEDs=10</p>
+            </article>
+
+            <div class="arrow-down">
+                ↓
+                <span class="arrow-text">If no object detected</span>
+            </div>
+
+            <article class="behavior-layer layer-cruise">
+                <div class="priority-badge">4</div>
+                <h3>🚗 CRUISE (Default Behavior)</h3>
+                <p><strong>Trigger:</strong> No other behaviors active</p>
+                <p><strong>Action:</strong> Straight forward - Left=150 PWM, Right=150 PWM, LEDs=01</p>
+            </article>
+        </section>
+
+        <!-- Motor Control Section -->
+        <section aria-labelledby="motor-heading">
+            <h2 id="motor-heading"><span class="icon">⚙️</span>Motor Control Output</h2>
+            <div class="motor-grid">
+                <article class="motor-card left-motor">
+                    <h3>Left Motor (Channel A)</h3>
+                    <dl>
+                        <dt>PWM:</dt>
+                        <dd>D5 (Timer0, ~980Hz)</dd>
+                        
+                        <dt>INA:</dt>
+                        <dd>D4 (HIGH = forward)</dd>
+                        
+                        <dt>INB:</dt>
+                        <dd>D7 (LOW = forward)</dd>
+                        
+                        <dt>Enable:</dt>
+                        <dd>D8 (HIGH = on)</dd>
+                    </dl>
+                    <div class="speed-badge">Speed Range: 0-255 PWM</div>
+                </article>
+                
+                <article class="motor-card right-motor">
+                    <h3>Right Motor (Channel B)</h3>
+                    <dl>
+                        <dt>PWM:</dt>
+                        <dd>D6 (Timer0, ~980Hz)</dd>
+                        
+                        <dt>INA:</dt>
+                        <dd>D9 (HIGH = forward)</dd>
+                        
+                        <dt>INB:</dt>
+                        <dd>D10 (LOW = forward)</dd>
+                        
+                        <dt>Enable:</dt>
+                        <dd>D11 (HIGH = on)</dd>
+                    </dl>
+                    <div class="speed-badge">Speed Range: 0-255 PWM</div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Mode LED Indicators Section -->
+        <section aria-labelledby="led-heading">
+            <h2 id="led-heading"><span class="icon">💡</span>Mode LED Indicators</h2>
+            <div class="led-grid">
+                <article class="led-card led-stop">
+                    <div class="led-display">
+                        <div class="led led-off"></div>
+                        <div class="led led-off"></div>
+                    </div>
+                    <div class="led-info">
+                        <h4>00 - STOP</h4>
+                        <p>Both LEDs OFF</p>
+                    </div>
+                </article>
+                
+                <article class="led-card led-cruise">
+                    <div class="led-display">
+                        <div class="led led-off"></div>
+                        <div class="led led-blue led-on"></div>
+                    </div>
+                    <div class="led-info">
+                        <h4>01 - CRUISE</h4>
+                        <p>LED0 ON, LED1 OFF</p>
+                    </div>
+                </article>
+                
+                <article class="led-card led-track">
+                    <div class="led-display">
+                        <div class="led led-purple led-on"></div>
+                        <div class="led led-off"></div>
+                    </div>
+                    <div class="led-info">
+                        <h4>10 - TRACK</h4>
+                        <p>LED0 OFF, LED1 ON</p>
+                    </div>
+                </article>
+                
+                <article class="led-card led-escape">
+                    <div class="led-display">
+                        <div class="led led-red led-on"></div>
+                        <div class="led led-red led-on"></div>
+                    </div>
+                    <div class="led-info">
+                        <h4>11 - ESCAPE/EMERGENCY</h4>
+                        <p>Both LEDs ON</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Speed Examples Section -->
+        <section class="examples-section" aria-labelledby="examples-heading">
+            <h2 id="examples-heading"><span class="icon">📊</span>Symmetric Speed Calculation Examples</h2>
+            <div class="examples-grid">
+                <article class="example-card">
+                    <h4>Straight Forward</h4>
+                    <p><strong>Situation:</strong> Cruise mode</p>
+                    <p class="highlight">Left: 150 PWM</p>
+                    <p class="highlight">Right: 150 PWM</p>
+                    <p><small>Delta = 0, both equal</small></p>
+                </article>
+                
+                <article class="example-card">
+                    <h4>Gentle Left Turn</h4>
+                    <p><strong>Situation:</strong> Object slightly right</p>
+                    <p class="highlight">Left: 110 PWM (150-40)</p>
+                    <p class="highlight">Right: 190 PWM (150+40)</p>
+                    <p><small>Delta = 40, symmetric</small></p>
+                </article>
+                
+                <article class="example-card">
+                    <h4>Sharp Right Turn</h4>
+                    <p><strong>Situation:</strong> Obstacle on right</p>
+                    <p class="highlight">Left: 230 PWM (150+80)</p>
+                    <p class="highlight">Right: 70 PWM (150-80)</p>
+                    <p><small>Delta = 80, symmetric</small></p>
+                </article>
+            </div>
+            <div class="key-principle">
+                <strong>Key Principle:</strong> Speeds always balanced around BASE_SPEED (150) for symmetric control
+            </div>
+        </section>
+
+        <!-- Timing Section -->
+        <section class="timing-section" aria-labelledby="timing-heading">
+            <h2 id="timing-heading"><span class="icon">⏱️</span>Non-Blocking Timing</h2>
+            <div class="timing-grid">
+                <div class="timing-card">
+                    <strong>Button Debounce</strong>
+                    <p>50ms stable time required</p>
+                    <p><small>Using millis() timestamps</small></p>
+                </div>
+                
+                <div class="timing-card">
+                    <strong>Emergency Duration</strong>
+                    <p>1000ms (1 second) pivot</p>
+                    <p><small>Timed with millis()</small></p>
+                </div>
+                
+                <div class="timing-card">
+                    <strong>Loop Frequency</strong>
+                    <p>~1000 Hz (1ms per loop)</p>
+                    <p><small>No delay() calls anywhere</small></p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

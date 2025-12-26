@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Subsumption Architecture Flowchart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="w-full h-full bg-gradient-to-br from-slate-50 to-slate-100 p-8 overflow-auto">
+
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl font-bold text-center mb-2 text-slate-800">
+      Subsumption Architecture
+    </h1>
+    <p class="text-center text-slate-600 mb-8">
+      Concurrent Behavior Layers with Priority-Based Suppression
+    </p>
+
+    <div class="flex flex-col gap-6">
+
+      <!-- START -->
+      <div class="flex justify-center">
+        <div class="bg-green-500 text-white px-8 py-3 rounded-full font-semibold shadow-lg">
+          START MAIN LOOP
+        </div>
+      </div>
+
+      <div class="flex justify-center text-3xl text-slate-400">↓</div>
+
+      <!-- LAYER 3 -->
+      <div class="border-4 border-red-500 rounded-lg p-6 bg-red-50 shadow-xl">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="bg-red-500 text-white px-4 py-2 rounded font-bold">
+            LAYER 3: ESCAPE
+          </div>
+          <span class="text-red-700 font-semibold">
+            (HIGHEST PRIORITY – Suppresses All Below)
+          </span>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div class="bg-white border-2 border-red-400 rounded p-4 flex-1">
+            <div class="font-semibold text-center mb-2">Check Sensor</div>
+            <div class="text-center text-lg">IN8 = 0?</div>
+          </div>
+
+          <div class="text-2xl text-red-500">→</div>
+
+          <div class="bg-red-500 text-white rounded p-4 flex-1">
+            <div class="font-semibold mb-2">Action:</div>
+            <div class="text-sm">• Turn 300°</div>
+            <div class="text-sm">• Blink LED 5x</div>
+            <div class="text-sm">• Audio Alert</div>
+            <div class="text-xs mt-2 bg-red-600 px-2 py-1 rounded">
+              ⚠ SUPPRESSES Layers 1 & 2
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-center text-center">
+        <div>
+          <div class="text-3xl text-slate-400">↓</div>
+          <span class="text-sm text-slate-500">If IN8 ≠ 0</span>
+        </div>
+      </div>
+
+      <!-- LAYER 2 -->
+      <div class="border-4 border-orange-500 rounded-lg p-6 bg-orange-50 shadow-xl">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="bg-orange-500 text-white px-4 py-2 rounded font-bold">
+            LAYER 2: OBSTACLE AVOIDANCE
+          </div>
+          <span class="text-orange-700 font-semibold">
+            (MEDIUM PRIORITY – Suppresses Layer 1)
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white border-2 border-orange-400 rounded p-4">
+            <div class="font-semibold text-center mb-2 text-sm">Sensor Check</div>
+            <div class="text-center mb-3">IN4=1 AND IN7=0?</div>
+            <div class="bg-orange-500 text-white rounded p-2 text-center">
+              <div class="font-semibold text-sm">Turn Left</div>
+              <div class="text-xs mt-1">⊗ Suppresses Wander</div>
+            </div>
+          </div>
+
+          <div class="bg-white border-2 border-orange-400 rounded p-4">
+            <div class="font-semibold text-center mb-2 text-sm">Sensor Check</div>
+            <div class="text-center mb-3">IN4=0 AND IN7=1?</div>
+            <div class="bg-orange-500 text-white rounded p-2 text-center">
+              <div class="font-semibold text-sm">Turn Right</div>
+              <div class="text-xs mt-1">⊗ Suppresses Wander</div>
+            </div>
+          </div>
+
+          <div class="bg-white border-2 border-orange-400 rounded p-4">
+            <div class="font-semibold text-center mb-2 text-sm">Sensor Check</div>
+            <div class="text-center mb-3">IN4=1 AND IN2=1?</div>
+            <div class="bg-orange-500 text-white rounded p-2 text-center">
+              <div class="font-semibold text-sm">Move Backward</div>
+              <div class="text-xs mt-1">⊗ Suppresses Wander</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-center text-center">
+        <div>
+          <div class="text-3xl text-slate-400">↓</div>
+          <span class="text-sm text-slate-500">If no obstacles detected</span>
+        </div>
+      </div>
+
+      <!-- LAYER 1 -->
+      <div class="border-4 border-blue-500 rounded-lg p-6 bg-blue-50 shadow-xl">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="bg-blue-500 text-white px-4 py-2 rounded font-bold">
+            LAYER 1: WANDER
+          </div>
+          <span class="text-blue-700 font-semibold">
+            (LOWEST PRIORITY – Default Behavior)
+          </span>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div class="bg-white border-2 border-blue-400 rounded p-4 flex-1">
+            <div class="font-semibold text-center mb-2">Condition</div>
+            <div class="text-center">No Higher Priority Active</div>
+          </div>
+
+          <div class="text-2xl text-blue-500">→</div>
+
+          <div class="bg-blue-500 text-white rounded p-4 flex-1">
+            <div class="font-semibold mb-2">Action:</div>
+            <div class="text-sm">• Move Forward</div>
+            <div class="text-sm">• Explore Environment</div>
+            <div class="text-xs mt-2 bg-blue-600 px-2 py-1 rounded">
+              ⓘ Always running unless suppressed
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-center">
+  <svg xmlns="http://www.w3.org/2000/svg"
+       width="32" height="32"
+       viewBox="0 0 24 24"
+       fill="none"
+       stroke="currentColor"
+       stroke-width="2"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       class="text-slate-400">
+    <path d="M12 5v14"></path>
+    <path d="M19 12l-7 7-7-7"></path>
+  </svg>
+</div>
+
+
+      <!-- LOOP -->
+      <div class="flex justify-center">
+        <div class="bg-slate-700 text-white px-8 py-3 rounded-full font-semibold shadow-lg">
+          RETURN TO MAIN LOOP
+        </div>
+      </div>
+
+      <!-- KEY PRINCIPLES -->
+      <div class="mt-8 bg-slate-800 text-white rounded-lg p-6">
+        <h2 class="text-xl font-bold mb-4">Key Subsumption Principles</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div class="bg-slate-700 p-4 rounded">
+            <div class="font-semibold mb-2">✓ Concurrent Operation</div>
+            <div class="text-slate-300">All layers check sensors every loop iteration</div>
+          </div>
+          <div class="bg-slate-700 p-4 rounded">
+            <div class="font-semibold mb-2">✓ Priority Suppression</div>
+            <div class="text-slate-300">Higher layers override lower layers instantly</div>
+          </div>
+          <div class="bg-slate-700 p-4 rounded">
+            <div class="font-semibold mb-2">✓ Fast Response</div>
+            <div class="text-slate-300">Short action pulses allow rapid sensor checking</div>
+          </div>
+          <div class="bg-slate-700 p-4 rounded">
+            <div class="font-semibold mb-2">✓ Layer Independence</div>
+            <div class="text-slate-300">Each behavior operates autonomously</div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+</body>
+</html>

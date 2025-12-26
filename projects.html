@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title> Projects | Mouhameth Ba</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+<style>
+/* ===== History Video Styles ===== */
+
+#history-video {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    #history-overlay {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(39, 38, 38, 0.782);
+      z-index: -1;
+    }
+
+     #content {
+      margin-top: 100vh;
+      background: #0f0f0f;
+    }
+
+    @media (max-width: 768px) {
+      #history-video {
+        height: 50vh;
+      }
+      #video-bg {
+    background: url("images/afrobot-poster.jpg") center / cover no-repeat;
+  }
+}
+
+
+
+</style>
+</head>
+<body class="is-preload">
+  
+       <!-- HERO VIDEO -->
+<video id="history-video" autoplay muted loop playsinline poster="images/afrobot-poster.jpg">
+ <source src="videos/Entire project.mp4" type="video/mp4" />
+</video>
+<div id="video-overlay"></div>
+  
+
+
+  <!-- Header -->
+  <header id="header">
+    <h1><a href="index.html">Mouhameth Ba</a></h1>
+    <nav>
+      <a href="#menu">Menu</a>
+    </nav>
+  </header>
+
+  <!-- Menu -->
+            <nav id="menu">
+                <div class="inner">
+                    <h2>Menu</h2>
+                    <ul class="links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="bio.html">Bio</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="experience.html">Experience</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                    <a href="#" class="close">Close</a>
+                </div>
+            </nav>
+
+
+  <!-- Wrapper -->
+<div id="page-wrapper"></div>
+  <section id="wrapper">
+  <header>
+    <div class="inner">
+      <h2>Engineering Portfolio Website</h2>
+      <p>A portfolio designed as an engineered system to communicate robotics and electromechanical projects.
+        Emphasizes clarity, system behavior, and real-world constraints over visual decorations.</p>
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <div class="inner">
+
+      <section class="features">
+
+        <!-- PROJECT 1 -->
+        <article>
+          <a href="AFROBOT.html" class="image">
+            <img src="images/front.jpeg" alt="AFROBOT Project" />
+          </a>
+          <h3 class="major"> AFROBOT: AN AUTONOMOUS DRIVE PET</h3>
+          <p>
+            AfroBot was developed to explore autonomous robotic behavior through the integration of analog sensing, embedded control, and motor actuation. 
+            The project focuses on three main behaviors: </p>
+            <ul>
+              <li>Cruise – steady forward motion</li>
+              <li>Track – follow a dark-green object</li>
+              <li>Escape – obstacle avoidance</li>
+            </ul>
+              These behaviors are coordinated using a subsumption architecture where higher-priority actions override lower-priority ones.
+              Two Sharp GP2Y0A21YK IR sensors detect obstacles by producing a voltage that increases as objects approach. 
+              A Pixy2 camera outputs an analog X-position signal that guides tracking. All signals are processed through LM324 op-amp stages before reaching the Arduino, which controls two DC motors through a dual H-bridge. 
+              This project demonstrates how sensing and control systems combine to achieve autonomous navigation. 
+              The robot successfully executed all behaviors: maintaining straight motion, detecting obstacles at ~11 cm, and tracking a green object up to 1 meter away. 
+              Despite wiring failures and sensor replacements late in development, AfroBot ultimately operated reliably and met all project requirements.
+          </p>
+          <a href="AFROBOT.html" class="button primary">Explore the Project</a>
+        </article>
+
+        <!-- PROJECT 2 -->
+        <article>
+          <a href="turtleduck.html" class="image">
+            <img src="images/turtle 3D pic.png" alt="Turtle Duck Saltwater Toy" />
+          </a>
+          <h3 class="major">Turtle Duck Saltwater Toy</h3>
+          <p>
+            Ashton the Turtleduck 🦆 What started as a simple idea quickly turned into a real engineering challenge.
+            My team and I designed and built a floating electromechanical system that uses ionized water to complete a circuit and power a motor, applying Ohm’s Law in a very hands-on way. 
+            I worked on the 3D-printed floating design, waterproofing the motor and electronics, and chose materials that wouldn’t fail in water after we ran into corrosion issues with copper. 
+            We tested performance by measuring voltage, current, and mechanical output, which exposed efficiency losses from friction, water resistance, and sealing—great reminders of how theory meets reality.
+            This project gave me practical experience with mechatronics integration, troubleshooting, and designing systems that actually work outside the lab.
+          </p>
+          <a href="turtleduck.html" class="button primary">View Project</a>
+        </article>
+
+
+         <!-- PROJECT 3 -->
+        <article>
+          <a href="kingbot.html" class="image">
+            <img src="images/boeBotKing/IMG_6924.PNG" alt="KINGBOT" />
+          </a>
+          <h3 class="major">Boe-Bot King</h3>
+          <p>
+           Boe-Bot King 🤖 Built and programmed an autonomous Boe-Bot robot capable of following a line using dual QTI sensors, focusing on reliable sensor feedback and real-time motion control. 
+           I worked on developing the line-following logic, tuning turn and correction behaviors, and integrating subroutines for forward, turning, reversing, and obstacle recovery using whisker sensors. 
+           One of the biggest challenges was getting consistent sensor readings, which we solved through hands-on troubleshooting by adjusting sensor height and placement rather than relying only on code changes. 
+           Through continuous testing and iteration, we improved speed, stability, and accuracy on the course, gaining practical experience in robotics programming, sensor integration, debugging, and translating theory into working hardware.
+          </p>
+          <a href="kingbot.html" class="button primary">View Project</a>
+        </article>
+
+         <!-- PROJECT 4 -->
+        <article>
+          <a href="projects/PersonalWebsiteProject.html" class="image">
+            <img src="images/TreeRoot.jpg" alt="Personal WebsiteProject" />
+          </a>
+          <h3 class="major">Personal Portfolio Website</h3>
+          <p>
+            This is the current personal portfolio website project, in which I have been working for the entire winter break.
+          </p>
+          <a href="projects/PersonalWebsiteProject.html" class="button primary">View Project</a>
+        </article>
+
+      </section>
+
+    </div>
+  </div>
+</section>
+
+
+  <!-- Footer -->
+  <!-- Footer -->
+  <section id="footer">
+    <div class="inner">
+      <h2 class="major">Get in touch</h2>
+      <ul class="contact">
+        <li class="icon solid fa-envelope">
+          <a href="mailto:ibnoury17@gmail.com">ibnoury17@gmail.com</a>
+        </li>
+        <li class="icon brands fa-linkedin">
+          <a href="https://www.linkedin.com/in/mouhameth-ba-588b82207/" target="_blank">
+            LinkedIn
+          </a>
+        </li>
+      </ul>
+      <ul class="copyright">
+        <li>&copy; Mouhameth Ba. All rights reserved.</li>
+        <li> Dina metti, waaye dinagnu am ndam</li>
+      </ul>
+    </div>
+  </section>
+
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.scrollex.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>

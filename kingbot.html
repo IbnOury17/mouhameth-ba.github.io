@@ -1,0 +1,385 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+<head>
+  <title> Boe-Bot King | Mouhameth Ba</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+
+  <style>
+  /* ===== Boe-Bot Signature Table ===== */
+
+  .decision-section {
+    background: rgba(91, 192, 222, 0.08); /* soft blue accent */
+    border-left: 4px solid #5bc0de;
+    padding: 2rem;
+    border-radius: 6px;
+    margin: 3rem 0;
+  }
+
+  .decision-section h3 {
+    margin-top: 0;
+  }
+
+  .decision-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .decision-table th,
+  .decision-table td {
+    padding: 0.75rem 1rem;
+    text-align: center;
+  }
+
+  .decision-table thead {
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  .decision-table th {
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #5bc0de;
+  }
+
+  .decision-table tbody tr {
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .decision-table tbody tr:hover {
+    background: rgba(255,255,255,0.04);
+  }
+
+  .decision-note {
+    margin-top: 1.25rem;
+    font-size: 0.9rem;
+    color: #bbb;
+    font-style: italic;
+  }
+
+   .video-container video {
+      width:auto;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 6px;
+      background: #000;
+   }
+
+   /* ===== Subsumption Modal ===== */
+
+.chart-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.chart-modal.hidden {
+  display: none;
+}
+
+.chart-container {
+  position: relative;
+  width: 90%;
+  height: 90vh;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.chart-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #111;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 6px;
+}
+
+
+</style>
+</head>
+
+<body class="is-preload">
+<div id="page-wrapper">
+
+  <!-- Header -->
+
+  <header id="header">
+    <h1><a href="../index.html">Mouhameth Ba</a></h1>
+    <nav><a href="#menu">Menu</a></nav>
+  </header>
+
+  <!-- Menu -->
+
+  <nav id="menu">
+    <div class="inner">
+      <h2>Menu</h2>
+      <ul class="links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../bio.html">Bio</a></li>
+        <li><a href="../projects.html">Projects</a></li>
+        <li><a href="../experience.html">Experience</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+      <a href="#" class="close">Close</a>
+    </div>
+  </nav>
+
+  <!-- Main Wrapper -->
+<section id="wrapper">
+
+  <!-- Hero / Intro -->
+  <header>
+    <div class="inner">
+      <h2>Boe-Bot King</h2>
+      <p>Autonomous line-following robot using QTI infrared sensors</p>
+    </div>
+  </header>
+
+
+<div class="wrapper">
+  <div class="inner">
+
+    <!-- Overview -->
+    <h3 class="major">Project Overview</h3>
+    <p>
+      Boe-Bot King is an autonomous mobile robot designed to follow a predefined track
+      using dual QTI infrared sensors. The project emphasizes reactive sensor-based
+      decision logic, structured motion control, and reliable recovery behaviors
+      during navigation.
+    </p>
+
+    <!-- Objective -->
+    <h3 class="major">Objective</h3>
+    <p>
+      Design and implement a fully autonomous line-following robot capable of
+      navigating a constrained obstacle course while maintaining accurate path
+      tracking and recovering from collisions or loss of line detection.
+    </p>
+
+    <!-- Hardware -->
+    <h3 class="major">Hardware Configuration</h3>
+    <ul>
+      <li>Boe-Bot mobile chassis</li>
+      <li>Dual QTI infrared reflectance sensors</li>
+      <li>Whisker contact sensors</li>
+      <li>Piezoelectric speaker and status LEDs</li>
+      <li>Onboard microcontroller (BASIC Stamp)</li>
+    </ul>
+
+    <div class="decision-section">
+
+  <h3 class="major">Behavior Decision Mapping</h3>
+
+  <p>
+    Boe-Bot King uses a deterministic sensor-to-action mapping strategy.
+    Each motion command is selected directly based on the real-time state
+    of the QTI and whisker sensors, ensuring fast response and predictable behavior.
+  </p>
+
+  <table class="decision-table">
+    <thead>
+      <tr>
+        <th>Left QTI</th>
+        <th>Right QTI</th>
+        <th>Whiskers</th>
+        <th>Robot Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>No Line</td>
+        <td>No Line</td>
+        <td>Clear</td>
+        <td>Move Forward</td>
+      </tr>
+      <tr>
+        <td>Line</td>
+        <td>No Line</td>
+        <td>Clear</td>
+        <td>Turn Left</td>
+      </tr>
+      <tr>
+        <td>No Line</td>
+        <td>Line</td>
+        <td>Clear</td>
+        <td>Turn Right</td>
+      </tr>
+      <tr>
+        <td>Line</td>
+        <td>Line</td>
+        <td>Clear</td>
+        <td>Reverse</td>
+      </tr>
+      <tr>
+        <td>Any</td>
+        <td>Any</td>
+        <td>Triggered</td>
+        <td>360° Recovery Turn</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="decision-note">
+    This rule-based mapping avoids complex state machines and simplifies debugging
+    during iterative hardware testing.
+  </p>
+
+</div>
+
+    <!-- Control Logic -->
+        <section><h3 class="major">Control Logic & Behaviors</h3>
+        <p>
+          The robot operates using a reactive control strategy in which motor commands
+          are selected based on real-time sensor readings. Each sensor condition maps
+          directly to a motion behavior.
+        </p>
+
+        <ul>
+          <li><strong>Forward:</strong> No line detected by either QTI sensor</li>
+          <li><strong>Left Turn:</strong> Line detected by left QTI sensor</li>
+          <li><strong>Right Turn:</strong> Line detected by right QTI sensor</li>
+          <li><strong>Reverse:</strong> Line detected by both QTI sensors</li>
+          <li><strong>360° Turn:</strong> Triggered by whisker collision</li>
+        </ul>
+        <ul>
+        <button id="open-boebot-chart" class="button primary">
+              View Subsumption Architecture Logic
+        </button>
+        
+        <div id="boebot-chart-modal" class="chart-modal hidden">
+      <div class="chart-container">
+        <button id="close-boebot-chart" class="close-btn">✕</button>
+        <iframe
+          src="boebot-chart.html"
+          title="Boe-Bot King Subsumption Architecture"
+          frameborder="0"
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+    </ul>
+  </section>
+    
+    <!-- Software Architecture -->
+    <h3 class="major">Software Architecture</h3>
+    <p>
+      The control program is organized into modular subroutines, each responsible
+      for a specific motion behavior. Sensor states are evaluated continuously,
+      and the appropriate subroutine is invoked without blocking execution.
+    </p>
+    <p>
+      Pulse counters were used to regulate turning angles and prevent over-rotation,
+      while an onboard LCD provided real-time feedback during debugging and testing.
+      the picture below shows a snippy of the LCD program used.
+      <img src="images/boeBotKing/code snippy.png" alt="Code snippy" />
+          </a>
+    </p>
+
+    <!-- Performance -->
+    <h3 class="major">Testing & Performance</h3>
+    <p>
+      Through iterative testing and calibration, the robot consistently completed
+      the obstacle course. Proper sensor alignment and ground clearance proved
+      critical to maintaining reliable line detection.
+    </p>
+
+    <!-- Challenges -->
+    <h3 class="major">Engineering Challenges</h3>
+    <ul>
+      <li>Inconsistent QTI sensor readings → sensor height adjusted using washers</li>
+      <li>Over-rotation during turns → calibrated pulse counters</li>
+      <li>Software logic errors → extensive on-hardware debugging</li>
+    </ul>
+
+    <!-- Lessons -->
+    <h3 class="major">Lessons Learned</h3>
+    <p>
+      This project reinforced the importance of precise sensor placement,
+      modular embedded software design, and iterative hardware–software
+      integration in autonomous systems.
+    </p>
+
+    <!-- Media & Code -->
+    <h3 class="major">Media & Source Code</h3>
+    <p>
+       <article>
+        <em><u>snippy of the code used:</u></em>
+            <img src="images/boeBotKing/code snippy.png" alt="Code snippy" />
+          </a>
+    </p>
+
+    <div class="video-container">
+      <!-- TODO: Replace src with final demo video -->
+       <p><u>Final Demo Video:</u></p>
+      <video controls muted playsinline>
+        <source src="videos/FinalDemoBoeBot.mov" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+  </div>
+</div>
+  </section>
+
+  <!-- Footer -->
+
+  <section id="footer">
+    <div class="inner">
+      <ul class="copyright">
+        <li>&copy; Mouhameth Ba. All rights reserved.</li>
+        <li>Dina metti, waaye dinagnu am ndam</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<!-- Scripts -->>
+
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/browser.min.js"></script>
+<script src="../assets/js/breakpoints.min.js"></script>
+<script src="../assets/js/util.js"></script>
+<script src="../assets/js/main.js"></script>
+
+<script>
+  const openBB = document.getElementById("open-boebot-chart");
+  const closeBB = document.getElementById("close-boebot-chart");
+  const modalBB = document.getElementById("boebot-chart-modal");
+
+  if (openBB && closeBB && modalBB) {
+    openBB.addEventListener("click", () => {
+      modalBB.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+      document.getElementById('header').style.display = 'none'; // Hide header
+    });
+
+    closeBB.addEventListener("click", () => {
+      modalBB.classList.add("hidden");
+      document.body.style.overflow = "";
+      document.getElementById('header').style.display = 'block'; // Show header});
+    });
+  }
+</script>
+
+</body>
+</html>
