@@ -1,0 +1,284 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <title>Engineering Portfolio Website | Mouhameth Ba</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+
+  <style>
+    /* ===== Engineering Mode ===== */
+
+    .engineering-mode {
+      background: rgba(91, 192, 222, 0.08);
+      border-left: 4px solid #5bc0de;
+      padding: 2rem;
+      border-radius: 6px;
+      margin: 3rem 0;
+    }
+
+    .engineering-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .engineering-toggle h3 {
+      margin: 0;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 52px;
+      height: 26px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #333;
+      border-radius: 26px;
+      transition: 0.3s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    input:checked + .slider {
+      background-color: #5bc0de;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .engineering-content {
+      display: none;
+      font-size: 0.95rem;
+    }
+
+    .engineering-content.active {
+      display: block;
+    }
+
+    .engineering-content ul {
+      margin-top: 1rem;
+    }
+
+    .engineering-content li {
+      margin-bottom: 0.5rem;
+    }
+
+    .image.fit img {
+      border-radius: 6px;
+    }
+
+    /* Top banner message with sliding text */
+    #top-banner {
+      position: fixed;
+      top: 3.5em; /* Below the header */
+      left: 0;
+      width: 100%;
+      background: #4c5c96; /* Matching blue */
+      color: white;
+      padding: 1rem 0;
+      z-index: 998;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    #top-banner p {
+      animation: slideText 30s linear infinite;
+      margin: 0;
+      text-align: start;
+    }
+
+    @keyframes slideText {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+     /* Adjust wrapper to avoid overlap */
+    #wrapper {
+      padding-top: 1rem;
+    }
+
+  </style>
+</head>
+
+<body class="is-preload">
+<div id="page-wrapper">
+
+  <!-- Header -->
+  <header id="header">
+    <h1><a href="../index.html">Mouhameth Ba</a></h1>
+    <nav><a href="#menu">Menu</a></nav>
+  </header>
+
+  <!-- Menu -->
+  <nav id="menu">
+    <div class="inner">
+      <h2>Menu</h2>
+      <ul class="links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../bio.html">Bio</a></li>
+        <li><a href="../projects.html">Projects</a></li>
+        <li><a href="../experience.html">Experience</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+      <a href="#" class="close">Close</a>
+    </div>
+  </nav>
+
+  <div id="top-banner">
+              <div id="top-banner">
+              <p><strong>This website is itself an engineered system designed to communicate engineering work.</strong></p>
+            </div>
+            </div>
+
+  <!-- Main -->
+  <section id="wrapper">
+    <header>
+      <div class="inner">
+        <h2>Engineering Portfolio Website</h2>
+        <p>A system designed to communicate engineering work clearly and truthfully</p>
+      </div>
+    </header>
+
+    <div class="wrapper">
+      <div class="inner">
+
+        <!-- Overview -->
+        <h3 class="major">Project Overview</h3>
+        <p>
+          This portfolio website was designed as an engineered system rather than a
+          traditional personal website. Its primary objective is to communicate
+          robotics and electromechanical projects with clarity, technical honesty,
+          and structural intent.
+        </p>
+
+        <div class="image fit">
+          <img src="../images/portfolio-system.png" alt="Portfolio Website Browser Mockup" />
+        </div>
+
+        <!-- Engineering Mode -->
+        <div class="engineering-mode">
+
+          <div class="engineering-toggle">
+            <h3 class="major">Engineering Mode</h3>
+            <label class="toggle-switch">
+              <input type="checkbox" id="engToggle">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div id="engineeringContent" class="engineering-content">
+            <p>
+              When viewed through an engineering lens, the portfolio functions as a
+              structured information system optimized for fast comprehension and
+              accurate evaluation.
+            </p>
+
+            <ul>
+              <li><strong>System Objective:</strong> Communicate real engineering capability without exaggeration</li>
+              <li><strong>Inputs:</strong> Recruiters, engineers, project reviewers</li>
+              <li><strong>Outputs:</strong> Clear understanding of skills, decisions, and constraints</li>
+              <li><strong>Constraints:</strong> Attention span, technical skepticism, time pressure</li>
+              <li><strong>Design Strategy:</strong> Minimalism, hierarchy, behavior-first explanations</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Design Philosophy -->
+        <h3 class="major">Design Philosophy</h3>
+        <p>
+          Most portfolios prioritize visual appeal or buzzwords. This system
+          prioritizes signal over noise. Projects are presented as systems,
+          behaviors are explained explicitly, and design trade-offs are acknowledged.
+        </p>
+
+        <!-- Key Features -->
+        <h3 class="major">Key Features</h3>
+        <ul>
+          <li>Project pages structured like engineering reports</li>
+          <li>Behavior-based explanations instead of vague summaries</li>
+          <li>Consistent visual hierarchy across all projects</li>
+          <li>Optional deep dives for technical reviewers</li>
+        </ul>
+
+        <!-- Why It Matters -->
+        <h3 class="major">Why This Project Matters</h3>
+        <p>
+          Engineering work is often misunderstood due to poor communication.
+          This project treats communication itself as an engineering problem —
+          one that requires structure, constraints, and deliberate design.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <section id="footer">
+    <div class="inner">
+      <ul class="copyright">
+        <li>&copy; Mouhameth Ba. All rights reserved.</li>
+        <li>Dina metti, waaye dinagnu am ndam</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<!-- Scripts -->
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/browser.min.js"></script>
+<script src="../assets/js/breakpoints.min.js"></script>
+<script src="../assets/js/util.js"></script>
+<script src="../assets/js/main.js"></script>
+
+<script>
+  const toggle = document.getElementById("engToggle");
+  const content = document.getElementById("engineeringContent");
+
+  toggle.addEventListener("change", () => {
+    content.classList.toggle("active");
+  });
+
+  // Hide banner on scroll
+  window.addEventListener('scroll', function() {
+    const banner = document.getElementById('top-banner');
+    if (window.scrollY > 500) { // Hide after scrolling 200px
+      banner.style.display = 'none';
+    } else {
+      banner.style.display = 'block';
+    }
+  });
+
+
+</script>
+
+</body>
+</html>
